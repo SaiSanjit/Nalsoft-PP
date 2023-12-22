@@ -1,4 +1,5 @@
 import 'package:assessment_project/routes.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,19 +8,36 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  Future<bool> checkConnection() async {
+    ConnectivityResult result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      return false;
+    }
+    return true;
+  }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Future<bool> isConnected = checkConnection();
     return MaterialApp(
       title: '',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: RouteGenerator.loginForm,
+      initialRoute: isConnected == true
+          ? RouteGenerator.loginForm
+          : RouteGenerator.noInternet,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
+  }
+}
+
+class noConnection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(child: Image(image: AssetImage('assets/images/connection_error.png'))));
   }
 }
 
