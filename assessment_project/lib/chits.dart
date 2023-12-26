@@ -23,12 +23,15 @@ class _CreateChitsState extends State<Chits> {
     return Scaffold(
       appBar: AppBar(
         title: const  Text('Secret Santa'),
+        
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
           } 
-        )),
+        ),
+        actions: [Image(image: AssetImage('assets/images/santa.jpg'))],
+        ),
       body: Column(
         children: [
          Flexible(flex:1, child: Text('Pick a chit',style:GoogleFonts.comfortaa(fontSize: 24))),

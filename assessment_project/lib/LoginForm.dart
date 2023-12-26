@@ -1,7 +1,6 @@
 import "dart:ui";
 
 import "package:assessment_project/routes.dart";
-import "package:connectivity_plus/connectivity_plus.dart";
 import "package:flutter/material.dart";
 
 class LoginForm extends StatefulWidget {

@@ -19,7 +19,7 @@ class RouteGenerator{
       case loginForm :return MaterialPageRoute(builder: (_)=>const LoginForm());
       case chits: return MaterialPageRoute(builder: (_)=> Chits());
       case products: return MaterialPageRoute(builder: (_)=> Products());
-      case noInternet: return MaterialPageRoute(builder: (_)=> noConnection());
+      case noInternet: return MaterialPageRoute(builder: (_)=> const NoConnection());
       default: throw const FormatException("Route not found");
     }
   }
