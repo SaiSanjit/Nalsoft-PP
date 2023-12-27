@@ -1,57 +1,68 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:assessment_project/LoginForm.dart';
 import 'package:assessment_project/routes.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState()=>_createMyAppState();
-}
-
-class _createMyAppState extends State<MyApp>{
-   bool isConnected = false;
-  
-   @override
-   void initState()  { 
-    super.initState();
-    checkConnection();
-
-  }
-
-  void checkConnection() async {
-  ConnectivityResult result = await Connectivity().checkConnectivity();
-  if (result != ConnectivityResult.none) {
-    setState((){
-      isConnected=true;
-    });}
-    else{
-    setState((){
-      isConnected=false;
-    });
-    }
-  }
-  
-   @override
-  Widget build(BuildContext context) {
-    
-    return MaterialApp(
+  runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       title: '',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: isConnected == true
-          ? RouteGenerator.loginForm
-          : RouteGenerator.noInternet,
+      initialRoute: RouteGenerator.loginForm,
       onGenerateRoute: RouteGenerator.generateRoute,
+      home: MyApp()));
+}
+
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _createMyAppState();
+}
+
+class _createMyAppState extends State<MyApp> {
+  bool connectedBefore = true;
+  late StreamSubscription<ConnectivityResult> subscription;
+  @override
+  void initState() {
+    super.initState();
+    subscription =
+        Connectivity().onConnectivityChanged.listen(connectionUpdate);
+
+    // checkConnection();
+  }
+
+  void connectionUpdate(ConnectivityResult result) {
+    final hasInternet = result != ConnectivityResult.none;
+    print(hasInternet);
+    print("inside connectionUpdate");
+    if (result != ConnectivityResult.none) {
+      print("hasInternet${hasInternet}");
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => MaterialApp(home: LoginForm())),
+          ModalRoute.withName(RouteGenerator.loginForm));
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => NoConnection()));
+    }
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {  
+    return Scaffold(
+      appBar: AppBar(title: Text("MYAPP")),
     );
   }
 }
@@ -60,11 +71,11 @@ class NoConnection extends StatefulWidget {
   const NoConnection({super.key});
 
   @override
-  State<NoConnection> createState()=>_createNoConnectionState();
+  State<NoConnection> createState() => _createNoConnectionState();
 }
 
-class _createNoConnectionState extends State<NoConnection>{
-   @override
+class _createNoConnectionState extends State<NoConnection> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
@@ -72,7 +83,7 @@ class _createNoConnectionState extends State<NoConnection>{
       children: [
         Image(image: AssetImage('assets/images/connection_error.png')),
         TextButton(
-            onPressed: (){
+            onPressed: () {
               setState(() {
                 // sConnec
               });
@@ -82,4 +93,3 @@ class _createNoConnectionState extends State<NoConnection>{
     )));
   }
 }
-
