@@ -1,19 +1,18 @@
-import "dart:convert";
 import "package:flutter/material.dart";
 import 'package:dio/dio.dart';
 import "package:flutter_app_1/quoteController.dart";
-import "package:flutter_app_1/quoteModal.dart";
+
 
 void main() {
-  runApp(MaterialApp(home: QuoteView( controller: QuoteController() )));
+  runApp(MaterialApp(home: QuoteView( )));
 }
 
 
 class QuoteView extends StatefulWidget {
-  final QuoteController controller;
+  late  QuoteController controller;
   
   
-  const QuoteView( {required this.controller,super.key});
+   QuoteView( {super.key});
 
   @override
   State<QuoteView> createState() => _QuotesExampleState();
@@ -21,6 +20,7 @@ class QuoteView extends StatefulWidget {
 
 class _QuotesExampleState extends State<QuoteView> {
   List quotesArr = [];
+  
   _QuotesExampleState();
   Dio dio = Dio();
   bool gotData = false;
@@ -29,8 +29,15 @@ class _QuotesExampleState extends State<QuoteView> {
   @override
   void initState() {
     super.initState();
-    fetchQuotes();
     // gotData=true;
+    widget.controller=QuoteController(onDataFetched: (){
+      setState(() {
+        print("got the data");
+        gotData=true;
+      });
+    });
+    widget.controller.fetchQuotes();
+    
   }
 
   @override
@@ -40,11 +47,11 @@ class _QuotesExampleState extends State<QuoteView> {
         centerTitle: true,
         title: const Text("Quote"),
       ),
-      body: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
+      body:LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
         return  Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: gotData
-            ? [
+        children: 
+            [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -61,20 +68,20 @@ class _QuotesExampleState extends State<QuoteView> {
                         },
                         icon: Icon(Icons.navigate_before_rounded)),
 
-                    Container(
+                    gotData?   Container(
                       decoration:  BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/quotebg.jpg"), fit: BoxFit.cover, ),borderRadius:BorderRadius.circular(12) ),
                       
                       width: constraints.maxWidth*0.7,
                       child: Card(
                         color: Colors.blue.withOpacity(0.1),
                         elevation: 10,
-                        child: Text(quotesArr[quoteIndex]["text"],overflow: TextOverflow.fade,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25)),
+                        child: Text(widget.controller.quoteModal.quotes[quoteIndex].text!,overflow: TextOverflow.fade,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25)),
                       ),
-                    ),
-
+                    )
+: CircularProgressIndicator(),
                     IconButton.filled(
                         onPressed: (){
-                          if( quoteIndex>=quotesArr.length-1){
+                          if( quoteIndex>=widget.controller.quoteModal.quotes.length-1){
                             return;
                           }
                           else{
@@ -86,38 +93,11 @@ class _QuotesExampleState extends State<QuoteView> {
                         icon: Icon(Icons.navigate_next_rounded))
                   ],
                 ),
-              ]
-            : [Center(child: const CircularProgressIndicator.adaptive())],
-      ); },)
+              ],
+           
+      ); },),
     );
   }
 
-  Future<void> fetchQuotes() async {
-    try {
-      Response response = await dio.get('https://type.fit/api/quotes',onReceiveProgress: (count, total) {
-        print("total${total}");
-        print(count);
-        print(1-(total/count));
-        
-      },);
-      if (response.statusCode == 200) {
-        var result = jsonDecode(response.data);
-        
-        List<QuoteModal> quoteModalList=[];
-        for (var i in result)
-       {
-      QuoteModal quoteModal=QuoteModal.fromJson(i);
-      quoteModalList.add(quoteModal);
-      }
-        print(quoteModalList[0].text);
-       
-        print(widget.controller.quotes);
-        setState(() {
-          gotData = true;
-        });
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+
 }
