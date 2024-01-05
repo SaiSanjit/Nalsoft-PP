@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mess_management/screens/route_management.dart';
+import 'package:mess_management/screens/widgets/infoCard.dart';
 
 void main(){
   runApp(MaterialApp(home: Employees(),));
@@ -49,16 +50,10 @@ class Employees extends StatelessWidget{
             SizedBox(
               height: 16.0,
             ),
-            const Row(
-
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Padding(
-                padding: EdgeInsets.only(left:16.0),
-                child: Text("Department",style: TextStyle(fontSize: 16),),
-              ),Text(':'),Padding(
-                padding: EdgeInsets.only(right:16.0),
-                child: Text("Dept1",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-              )],),
+              Padding(
+                padding: const EdgeInsets.only(left:16.0,right:16.0),
+                child: InfoCard(content: {"Department":"Dept1"}),
+              ),
               SizedBox(height: 16,),
             const Row( mainAxisAlignment: MainAxisAlignment.start,
               children: [
