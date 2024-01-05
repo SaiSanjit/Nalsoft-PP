@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:mess_management/models/userRegistrationModel.dart";
+import 'package:mess_management/providers/userRegistrationModel.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -200,7 +200,7 @@ class UserRegistrationView extends StatelessWidget {
                             )
                             ,
                           ElevatedButton(onPressed: (){
-                            print("hello");
+                             Navigator.pop(context);
                           }, child: Text("Sign up"))
                           ],
                         )),

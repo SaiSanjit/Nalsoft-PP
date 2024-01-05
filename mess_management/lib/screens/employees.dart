@@ -1,26 +1,20 @@
-import "package:flutter/material.dart";
-import "package:mess_management/screens/route_management.dart";
+import 'package:flutter/material.dart';
+import 'package:mess_management/screens/route_management.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: AdminHomePage(),
-  ));
+void main(){
+  runApp(MaterialApp(home: Employees(),));
 }
 
-class AdminHomePage extends StatelessWidget {
+class Employees extends StatelessWidget{
   var size, height, width;
-  final GlobalKey<ScaffoldState>  _scaffoldKey = GlobalKey<ScaffoldState>();
-  List departments = ["Dept1", "Dept2", "Dept3", "Dept4", "Dept5", "Dept4", "Dept5", "Dept4", "Dept5"];
+  List empList=["Emp1","Emp2","Emp3","Emp4","Emp5","Emp6","Emp7","Emp8","Emp9","Emp10","Emp11","Emp12"] ;
+
   @override
-  Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
+  Widget build(BuildContext context){
+      size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
-    return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        drawer: Drawer(child: Column(children: [TextButton(onPressed: (){Navigator.of(context).popUntil((route) => route.isFirst);
-}, child: Text("Log out"))],),),
+    return SafeArea(  child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Column(crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -34,8 +28,8 @@ class AdminHomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.menu),
-                      onPressed: () { _scaffoldKey.currentState?.openDrawer();},
+                      icon: Icon(Icons.arrow_back,),
+                      onPressed: () { Navigator.pop(context);},
                     ),
                     const Expanded(
                       child: TextField(
@@ -55,28 +49,37 @@ class AdminHomePage extends StatelessWidget {
             SizedBox(
               height: 16.0,
             ),
+            const Row(
+
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Padding(
+                padding: EdgeInsets.only(left:16.0),
+                child: Text("Department",style: TextStyle(fontSize: 16),),
+              ),Text(':'),Padding(
+                padding: EdgeInsets.only(right:16.0),
+                child: Text("Dept1",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+              )],),
+              SizedBox(height: 16,),
             const Row( mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(width: 16,),
-                Text("Select Department",style: TextStyle(color:Color.fromRGBO(73, 69, 79, 100))),
+                Text("Select Employee",style: TextStyle(color:Color.fromRGBO(73, 69, 79, 100)),),
               ],
             ),
             Expanded(
               child: Scrollbar(
                 child: ListView(
-                  children: departments
+                  children: empList
                       .map((item) => Container(
                         // color: Colors.amber,
                         margin: const EdgeInsets.only(left:10.0,right:10.0,bottom:4.0),
-                        
                         height:height*0.1,
-                        child: Card(
-                          elevation: 3,
+                        child: Card(elevation: 3,
                               child: TextButton(onPressed: () {
-                                 Navigator.pushNamed(context, RouteManagement.employees);
+                                 Navigator.pushNamed(context, RouteManagement.employeeLunchStatus);
                               },
                               style: TextButton.styleFrom(alignment:Alignment.centerLeft),
-                              child:Text(item,style: TextStyle(fontSize: 16,color: Colors.black87)),),
+                              child:Text(item,style: TextStyle(fontSize: 16,color: Colors.black87),),),
                             ),
                       ))
                       .toList(),
