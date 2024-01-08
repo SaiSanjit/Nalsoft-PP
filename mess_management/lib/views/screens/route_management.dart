@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mess_management/screens/adminHomePage.dart';
-import 'package:mess_management/screens/digital_sign_page.dart';
-import 'package:mess_management/screens/download.dart';
-import 'package:mess_management/screens/employeeLunchStatus.dart';
-import 'package:mess_management/screens/employees.dart';
-import 'package:mess_management/screens/login_page.dart';
-import 'package:mess_management/screens/preview_page.dart';
-import 'package:mess_management/screens/userRegistration.dart';
-import 'package:mess_management/screens/user_home_page.dart';
+import 'package:mess_management/views/screens/adminHomePage.dart';
+import 'package:mess_management/views/screens/digital_sign_page.dart';
+import 'package:mess_management/views/screens/download.dart';
+import 'package:mess_management/views/screens/employeeLunchStatus.dart';
+import 'package:mess_management/views/screens/employees.dart';
+import 'package:mess_management/views/screens/login_page.dart';
+import 'package:mess_management/views/screens/preview_page.dart';
+import 'package:mess_management/views/screens/updateUpcomingStatus.dart';
+import 'package:mess_management/views/screens/userRegistration.dart';
+import 'package:mess_management/views/screens/user_home_page.dart';
 
 class RouteManagement {
   RouteManagement._();
@@ -17,12 +18,12 @@ class RouteManagement {
   static const String download = '/download';
   static const String adminHomePage = '/adminHomePage';
   static const String userRegistration = '/userRegistration';
-
+  static const String updateUpcomingStatus = '/updateUpcomingStatus';
   
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => UserLoginPage());
+        return MaterialPageRoute(builder: (_) => LoginPage());
       case '/homepage':
         return MaterialPageRoute(builder: (_) => UserHomePage());
       case '/sign':
@@ -42,6 +43,8 @@ class RouteManagement {
         
       case '/adminHomePage':
         return MaterialPageRoute(builder: (_) => AdminHomePage());
+      case '/updateUpcomingStatus':
+        return MaterialPageRoute(builder: (_) => UpdateLunchStatus());
       default:
         return null;
     }

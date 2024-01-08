@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:mess_management/screens/route_management.dart";
+import 'package:mess_management/views/screens/route_management.dart';
 
 void main() {
   runApp(MaterialApp(

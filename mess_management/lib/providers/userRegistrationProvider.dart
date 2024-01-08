@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 
 class UserRegistrationModel extends ChangeNotifier {
   String _email = '';
-  // String _name = '';
+  String _name = '';
   int _empId = 0;
   String _dept = '';
   int _floor = 0;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mess_management/screens/route_management.dart';
-import 'package:mess_management/screens/widgets/infoCard.dart';
+import 'package:mess_management/views/screens/route_management.dart';
+import 'package:mess_management/views/widgets/infoCard.dart';
 
 void main(){
   runApp(MaterialApp(home: Employees(),));
@@ -66,7 +66,6 @@ class Employees extends StatelessWidget{
                 child: ListView(
                   children: empList
                       .map((item) => Container(
-                        // color: Colors.amber,
                         margin: const EdgeInsets.only(left:10.0,right:10.0,bottom:4.0),
                         height:height*0.1,
                         child: Card(elevation: 3,

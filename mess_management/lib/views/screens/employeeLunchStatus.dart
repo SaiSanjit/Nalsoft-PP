@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:mess_management/screens/route_management.dart";
-import "package:mess_management/screens/widgets/infoCard.dart";
+import 'package:mess_management/views/screens/route_management.dart';
+import 'package:mess_management/views/widgets/infoCard.dart';
 import "package:table_calendar/table_calendar.dart";
 
 void main() {
@@ -18,6 +18,7 @@ class EmployeeLunchStatus extends StatelessWidget {
     width = size.width;
     return SafeArea(
         child: Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(onPressed: () {Navigator.pop(context);}, icon: Icon(Icons.arrow_back)),
         title: const Text("Lunch Status"),

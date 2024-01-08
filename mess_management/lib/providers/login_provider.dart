@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-class LoginModel extends ChangeNotifier{
+class LoginProvider extends ChangeNotifier{
   bool _obscurePassword = true;
   int _errTxt = 0;
   int _passErrTxt = 0;
